@@ -7,8 +7,11 @@
 const Letter = require('./Letter.js');
 
 function Word(wordString) {
-    console.log('making a new Word');
-    
+    console.log('making a new Word', wordString);
+    this.letterArray = [];
+    wordString.split('').forEach(element => {
+        this.letterArray.push(new Letter(element));
+    });
 }
 
 
