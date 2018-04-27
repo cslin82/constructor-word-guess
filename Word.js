@@ -8,10 +8,16 @@ const Letter = require('./Letter.js');
 
 function Word(wordString) {
     console.log('making a new Word', wordString);
+    
     this.letterArray = [];
+    
     wordString.split('').forEach(element => {
         this.letterArray.push(new Letter(element));
     });
+
+    this.toString = function() {
+        return this.letterArray.join(' ');
+    }
 }
 
 

@@ -4,5 +4,5 @@ var newWord = new Word('alphabet');
 
 
 console.log(newWord + '');
-console.log(newWord.letterArray);
+// console.log(newWord.letterArray);
 
