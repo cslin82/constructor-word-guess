@@ -25,8 +25,12 @@ function Word(wordString) {
         });
     }
 
+    // this.allGuessed = function() {
+    //     return this.letterArray.reduce((accumulator, currentValue) => (accumulator && currentValue.guessed), true);
+    // }
+
     this.allGuessed = function() {
-        return this.letterArray.reduce((accumulator, currentValue) => (accumulator && currentValue.guessed), true);
+        return this.letterArray.every((currentValue) => currentValue.guessed);
     }
 }
 
