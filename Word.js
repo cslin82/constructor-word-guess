@@ -18,6 +18,12 @@ function Word(wordString) {
     this.toString = function() {
         return this.letterArray.join(' ');
     }
+
+    this.makeGuess = function (guessedLetter) {
+        this.letterArray.forEach(element => {
+            element.makeGuess(guessedLetter);
+        });
+    }
 }
 
 
