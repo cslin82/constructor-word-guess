@@ -10,7 +10,7 @@ var Letter = function(character) {
     }
 
     this.makeGuess = function(newGuess) {
-        if (this.character === newGuess) {
+        if (this.character.toLowerCase() === newGuess.toLowerCase()) {
             this.guessed = true;
         }
     }
