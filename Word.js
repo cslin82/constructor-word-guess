@@ -24,6 +24,10 @@ function Word(wordString) {
             element.makeGuess(guessedLetter);
         });
     }
+
+    this.allGuessed = function() {
+        return this.letterArray.reduce((accumulator, currentValue) => (accumulator && currentValue.guessed), true);
+    }
 }
 
 

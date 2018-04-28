@@ -12,6 +12,13 @@ console.log(newWord + '');
 newWord.makeGuess('c');
 
 console.log(newWord + '');
+newWord.makeGuess('l');
+newWord.makeGuess('p');
+newWord.makeGuess('h');
+newWord.makeGuess('b');
 newWord.makeGuess('e');
 
+
 console.log(newWord + '');
+
+console.log(newWord.allGuessed());
