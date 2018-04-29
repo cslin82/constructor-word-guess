@@ -7,7 +7,7 @@
 const Letter = require('./Letter.js');
 
 function Word(wordString) {
-    console.log('making a new Word', wordString);
+    // console.log('making a new Word', wordString);
     
     this.letterArray = [];
     
