@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 
 var target;
 var targetWord;
+var guesses;
 
 const wordList = ["Addison Road", "Anacostia", "Archives",
     "Arlington Cemetery", "Ballston MU", "Benning Road", "Bethesda",
@@ -35,14 +36,6 @@ const wordList = ["Addison Road", "Anacostia", "Archives",
         return wordList[index];
     }
 
-targetWord = randomWord(wordList);
-console.log(targetWord);
-
-target = new Word(targetWord);
-target.makeGuess(' ');
-var guesses = [];
-
-
 const questions = [
     {
         name: 'letterGuessed',
@@ -65,6 +58,15 @@ const questions = [
         }
     }
 ];
+
+function resetGame() {
+    targetWord = randomWord(wordList);
+    console.log(targetWord);
+    
+    target = new Word(targetWord);
+    target.makeGuess(' ');
+    guesses = [];
+}
 
 function ask() {
     console.log(target + '');
@@ -90,12 +92,7 @@ function ask() {
             console.log(answers.playAgain);
             
             if (answers.playAgain) {
-                targetWord = randomWord(wordList);
-                console.log(targetWord);
-                
-                target = new Word(targetWord);
-                target.makeGuess(' ');
-                guesses = [];
+                resetGame();
             }
         }
         console.log('answers.playAgain ' + answers.playAgain);
@@ -107,6 +104,6 @@ function ask() {
         ask();
     });
 }
-
+resetGame();
 ask();
 
