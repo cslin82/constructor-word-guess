@@ -29,17 +29,17 @@ const wordList = ["Addison Road", "Anacostia", "Archives",
     "West Falls Church", "West Hyattsville", "Wheaton", "White Flint",
     "Wiehle Reston East", "Woodley Park"]; 
 
-// Select a word from the given list
-function randomWord(wordList) {
-    var index = Math.floor(Math.random() * wordList.length);
-    return wordList[index];
-}
+    // Select a word from the given list
+    function randomWord(wordList) {
+        var index = Math.floor(Math.random() * wordList.length);
+        return wordList[index];
+    }
 
-targetWord = randomWord(wordList)
+targetWord = randomWord(wordList);
+console.log(targetWord);
 
 target = new Word(targetWord);
-
-
+target.makeGuess(' ');
 var guesses = [];
 
 
@@ -50,31 +50,61 @@ const questions = [
         validate: function (value) {
             var valid = (value.length === 1) && ('abcdefghijklmnopqrstuvwxyz'.indexOf(value.charAt(0).toLowerCase()) !== -1); // fix letter logic later
             return valid || 'Please enter a single letter';
+        },
+        when: function () {
+            return (!target.allGuessed());
         }
-        
+    },
+    {
+        type: 'confirm',
+        name: 'playAgain',
+        message: 'Want to play again?',
+        // default: true,
+        when: function () {
+            return (target.allGuessed());
+        }
     }
 ];
 
 function ask() {
-    target.makeGuess(' ');
     console.log(target + '');
+    console.log(target.allGuessed());
+    
     inquirer.prompt(questions).then(answers => {
-        let currentGuess = answers.letterGuessed.toLowerCase();
-        
-        if (guesses.indexOf(currentGuess) === -1) {
-            guesses.push(currentGuess);
-            target.makeGuess(currentGuess);
-        } else {
-            console.log('you already guessed', currentGuess);
+        if (answers.hasOwnProperty('letterGuessed')) {
+            var currentGuess = answers.letterGuessed.toLowerCase();
             
+            if (guesses.indexOf(currentGuess) === -1) {
+                guesses.push(currentGuess);
+                target.makeGuess(currentGuess);
+            } else {
+                console.log('you already guessed', currentGuess);
+                
+            }
         }
         if (!target.allGuessed()) {
             console.log('guesses so far:', guesses.join(' '));
-
-            ask();
+            
         } else {
             console.log(targetWord, 'is correct!');
+            console.log(answers.playAgain);
+            
+            if (answers.playAgain) {
+                targetWord = randomWord(wordList);
+                console.log(targetWord);
+                
+                target = new Word(targetWord);
+                target.makeGuess(' ');
+                guesses = [];
+            }
         }
+        console.log('answers.playAgain ' + answers.playAgain);
+        if ('playAgain' in answers && !answers.playAgain) {
+            console.log('thanks for playing');
+            
+            process.exit();
+        }
+        ask();
     });
 }
 
