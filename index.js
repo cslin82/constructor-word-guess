@@ -71,10 +71,20 @@ function resetGame() {
 }
 
 function ask() {
-    console.log(target + '');
-    console.log(target.allGuessed());
+    console.log('target.allGuessed():', target.allGuessed());
+    if (!target.allGuessed() && guessesLeft > 0) {
+        console.log(target + '');
+    }
     
     inquirer.prompt(questions).then(answers => {
+
+        console.log('answers.playAgain ' + answers.playAgain);
+        if ('playAgain' in answers && !answers.playAgain) {
+            console.log('thanks for playing');
+
+            process.exit();
+        }
+        
         if (answers.hasOwnProperty('letterGuessed')) {
             var currentGuess = answers.letterGuessed.toLowerCase();
             
@@ -94,28 +104,24 @@ function ask() {
         if (!target.allGuessed()) {
             if (guessesLeft < 1) {
                 console.log('no more guesses');
-                    
+                console.log(targetWord, 'was correct.');
+
             } else {
                 console.log('guesses so far:', guesses.join(' '));
                 console.log('guesses remaining:', guessesLeft);
             }
-            
+
         } else {
             console.log(targetWord, 'is correct!');
             console.log(answers.playAgain);
-            
-            if (answers.playAgain) {
-                resetGame();
-            }
+
         }
-        console.log('answers.playAgain ' + answers.playAgain);
-        if ('playAgain' in answers && !answers.playAgain) {
-            console.log('thanks for playing');
-            
-            process.exit();
+        if (answers.playAgain) {
+            resetGame();
         }
+       
         ask();
-    });
+    }); // end inquirer.then
 }
 resetGame();
 ask();
