@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 var target;
 var targetWord;
 var guesses;
+var guessesLeft;
 
 const wordList = ["Addison Road", "Anacostia", "Archives",
     "Arlington Cemetery", "Ballston MU", "Benning Road", "Bethesda",
@@ -45,7 +46,7 @@ const questions = [
             return valid || 'Please enter a single letter';
         },
         when: function () {
-            return (!target.allGuessed());
+            return (!target.allGuessed() && guessesLeft > 0);
         }
     },
     {
@@ -54,7 +55,7 @@ const questions = [
         message: 'Want to play again?',
         // default: true,
         when: function () {
-            return (target.allGuessed());
+            return (target.allGuessed() || guessesLeft <= 0);
         }
     }
 ];
@@ -66,6 +67,7 @@ function resetGame() {
     target = new Word(targetWord);
     target.makeGuess(' ');
     guesses = [];
+    guessesLeft = 9;
 }
 
 function ask() {
@@ -79,13 +81,24 @@ function ask() {
             if (guesses.indexOf(currentGuess) === -1) {
                 guesses.push(currentGuess);
                 target.makeGuess(currentGuess);
+                if (targetWord.toLowerCase().indexOf(currentGuess.toLowerCase()) === -1) {
+                    guessesLeft--;
+                }
             } else {
                 console.log('you already guessed', currentGuess);
                 
             }
         }
+
+        
         if (!target.allGuessed()) {
-            console.log('guesses so far:', guesses.join(' '));
+            if (guessesLeft < 1) {
+                console.log('no more guesses');
+                    
+            } else {
+                console.log('guesses so far:', guesses.join(' '));
+                console.log('guesses remaining:', guessesLeft);
+            }
             
         } else {
             console.log(targetWord, 'is correct!');
